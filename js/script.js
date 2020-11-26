@@ -1,50 +1,61 @@
-// Un alert espone 5 numeri casuali.
-// Da li parte un timer di 30 secondi.
-// Dopo 30 secondi l'utente deve inserire un prompt
-// alla volta i numeri che ha visto precedentemente.
-// Dopo che sono stati inseriti i 5 numeri, il software
-// dice quanti e quali dei numeri da indovinare sono
-// stati individuati
-
-
-
-
-var randomNumbers = [];
-var userNumbers = [];
-
-do {
-    var numberGenerated = randomNumbersGenerator(1, 100);
-    var checkRandomNumbers = checkIfNumberAlreadyExist(randomNumbers, numberGenerated);
-
-    if (checkRandomNumbers == false) {
-        randomNumbers.push(numberGenerated);
-    }
-} while (randomNumbers.length < 5);
-
-alert(randomNumbers);
-
-setTimeout(
+$(document).ready(
     function() {
 
+        var randomNumbers = [];
+        var userNumbers = [];
+        var rightNumbers = [];
+        var wrongNumbers = [];
+
         do {
-            var userChoise = parseInt(prompt("Inserisci un numero"));
-            var checkUserNumbers = checkIfNumberAlreadyExist(userNumbers, userChoise);
+            var numberGenerated = randomNumbersGenerator(1, 100);
+            var checkRandomNumbers = checkIfNumberAlreadyExist(randomNumbers, numberGenerated);
 
-            if (checkUserNumbers == true || userChoise > 100 || userChoise < 1 || isNaN(userChoise)) {
-                alert("Scelta non valida");
-            } else {
-                userNumbers.push(userChoise);
+            if (checkRandomNumbers == false) {
+                randomNumbers.push(numberGenerated);
             }
+        } while (randomNumbers.length < 5);
 
-        } while (userNumbers.length < 5);
+        alert("I numeri da indovinare sono: " + randomNumbers);
 
-        console.log(userNumbers);
+        setTimeout(
+            function() {
+
+                do {
+                    var userChoise = parseInt(prompt("Inserisci un numero"));
+                    var checkUserNumbers = checkIfNumberAlreadyExist(userNumbers, userChoise);
+
+                    var compareNumbers = checkIfNumberAlreadyExist(randomNumbers, userChoise);
+
+                    if (checkUserNumbers == true || userChoise > 100 || userChoise < 1 || isNaN(userChoise)) {
+                        alert("Scelta non valida");
+                    } else if (compareNumbers == true){
+                        rightNumbers.push(userChoise);
+                        userNumbers.push(userChoise);
+                    } else if (compareNumbers == false) {
+                        wrongNumbers.push(userChoise);
+                        userNumbers.push(userChoise);
+                    } else {
+                        userNumbers.push(userChoise);
+                    }
+                } while (userNumbers.length < 5);
+
+                if (rightNumbers.length == 5) {
+                    alert("COMPLIMENTI, HAI VINTO!" + "\nHai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri");
+                } else if (wrongNumbers.length == 5) {
+                    alert("SEI UNA CAPRA!" + "\nHai indovinato " + rightNumbers.length + " numeri." + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers)
+                } else if (rightNumbers.length == 1) {
+                    alert("Hai indovinato " + rightNumbers.length + " numero: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers);
+                } else if (wrongNumbers.length == 1) {
+                    alert("Hai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numero: " + wrongNumbers);
+                } else {
+                    alert("Hai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers);
+                }
+
+            }
+        , 3000);
+
     }
-, 3000);
-
-
-
-
+);
 //--------------------------------------------------------
 function randomNumbersGenerator(nMin, nMax) {
     return Math.floor(Math.random() * (nMax - nMin) + 1) + nMin;

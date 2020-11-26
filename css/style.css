@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #212121;
+    height: 100vh;
+    line-height: 100vh;
+    text-align: center;
+}
+
+body > span {
+    font-size: 200px;
+    color: #fff;
+}
