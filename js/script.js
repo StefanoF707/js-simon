@@ -10,19 +10,37 @@
 
 
 var randomNumbers = [];
+var userNumbers = [];
 
 do {
     var numberGenerated = randomNumbersGenerator(1, 100);
-    randomNumbers.push(numberGenerated);
+    var checkRandomNumbers = checkIfNumberAlreadyExist(randomNumbers, numberGenerated);
 
-    var checkNumbers = checkIfNumberAlreadyExist(randomNumbers, numberGenerated);
-
-    if (checkNumbers == false) {
+    if (checkRandomNumbers == false) {
         randomNumbers.push(numberGenerated);
     }
 } while (randomNumbers.length < 5);
 
 alert(randomNumbers);
+
+setTimeout(
+    function() {
+
+        do {
+            var userChoise = parseInt(prompt("Inserisci un numero"));
+            var checkUserNumbers = checkIfNumberAlreadyExist(userNumbers, userChoise);
+
+            if (checkUserNumbers == true || userChoise > 100 || userChoise < 1 || isNaN(userChoise)) {
+                alert("Scelta non valida");
+            } else {
+                userNumbers.push(userChoise);
+            }
+
+        } while (userNumbers.length < 5);
+
+        console.log(userNumbers);
+    }
+, 3000);
 
 
 
