@@ -7,11 +7,17 @@
 body {
     background: #212121;
     height: 100vh;
-    line-height: 100vh;
-    text-align: center;
 }
 
-body > span {
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.countdown {
     font-size: 200px;
     color: #fff;
 }

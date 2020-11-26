@@ -17,42 +17,53 @@ $(document).ready(
 
         alert("I numeri da indovinare sono: " + randomNumbers);
 
-        setTimeout(
-            function() {
+        var timeRemaining = 30;
 
-                do {
-                    var userChoise = parseInt(prompt("Inserisci un numero"));
-                    var checkUserNumbers = checkIfNumberAlreadyExist(userNumbers, userChoise);
+        var countdown = setInterval(
+            function () {
 
-                    var compareNumbers = checkIfNumberAlreadyExist(randomNumbers, userChoise);
+                if (timeRemaining == 0) {
+                    $("span").text(timeRemaining);
+                    clearInterval(countdown);
 
-                    if (checkUserNumbers == true || userChoise > 100 || userChoise < 1 || isNaN(userChoise)) {
-                        alert("Scelta non valida");
-                    } else if (compareNumbers == true){
-                        rightNumbers.push(userChoise);
-                        userNumbers.push(userChoise);
-                    } else if (compareNumbers == false) {
-                        wrongNumbers.push(userChoise);
-                        userNumbers.push(userChoise);
+                    do {
+                        var userChoise = parseInt(prompt("Inserisci un numero"));
+                        var checkUserNumbers = checkIfNumberAlreadyExist(userNumbers, userChoise);
+
+                        var compareNumbers = checkIfNumberAlreadyExist(randomNumbers, userChoise);
+
+                        if (checkUserNumbers == true || userChoise > 100 || userChoise < 1 || isNaN(userChoise)) {
+                            alert("Scelta non valida");
+                        } else if (compareNumbers == true){
+                            rightNumbers.push(userChoise);
+                            userNumbers.push(userChoise);
+                        } else if (compareNumbers == false) {
+                            wrongNumbers.push(userChoise);
+                            userNumbers.push(userChoise);
+                        } else {
+                            userNumbers.push(userChoise);
+                        }
+                    } while (userNumbers.length < 5);
+
+                    if (rightNumbers.length == 5) {
+                        alert("COMPLIMENTI, HAI VINTO!" + "\nHai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri.");
+                    } else if (wrongNumbers.length == 5) {
+                        alert("SEI UNA CAPRA!" + "\nHai indovinato " + rightNumbers.length + " numeri." + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers)
+                    } else if (rightNumbers.length == 1) {
+                        alert("Hai indovinato " + rightNumbers.length + " numero: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers);
+                    } else if (wrongNumbers.length == 1) {
+                        alert("Hai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numero: " + wrongNumbers);
                     } else {
-                        userNumbers.push(userChoise);
+                        alert("Hai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers);
                     }
-                } while (userNumbers.length < 5);
 
-                if (rightNumbers.length == 5) {
-                    alert("COMPLIMENTI, HAI VINTO!" + "\nHai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri");
-                } else if (wrongNumbers.length == 5) {
-                    alert("SEI UNA CAPRA!" + "\nHai indovinato " + rightNumbers.length + " numeri." + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers)
-                } else if (rightNumbers.length == 1) {
-                    alert("Hai indovinato " + rightNumbers.length + " numero: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers);
-                } else if (wrongNumbers.length == 1) {
-                    alert("Hai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numero: " + wrongNumbers);
                 } else {
-                    alert("Hai indovinato " + rightNumbers.length + " numeri: " + rightNumbers + "\nHai sbagliato " + wrongNumbers.length + " numeri: " + wrongNumbers);
+                    $("span").text(timeRemaining);
+                    timeRemaining--;
                 }
 
             }
-        , 30000);
+        , 1000);
 
     }
 );
